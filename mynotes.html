@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>My Notes</title>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+
+
+
+    <style>
+        table {
+            margin-top: 50px;
+            border-collapse: collapse;
+            border: none;
+            border-radius: 10px;
+        }
+
+        table tr th:first-child , table tr th:last-child{
+          border: none;
+        }
+
+        table tr td:first-child, table tr td:last-child {
+          border: none;
+        }
+ 
+    </style>
+</head>
+<body>
+
+    <div id="my-notes">
+
+
+     <!-- Start Navbr-->
+     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="index.html"
+          >Program <span style="color: red">Notes</span></a
+        >
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div
+          class="collapse navbar-collapse"
+          id="navbarSupportedContent"
+          style="padding-right: 100px"
+        >
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                id="navbarDropdown"
+                role="button"
+                data-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <img src="img/icon.png" />
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="mynotes.html">My Noted</a>
+                <a class="dropdown-item" href="#">Info</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">Log Out</a>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <!-- End Navbr-->
+
+
+
+      
+      <div v-if="!allData.length" class="container text-center mt-3 alert alert-warning" role="alert">
+        Notes Is Empty !
+      </div>
+      <table class="table table-bordered table-dark container">
+        
+        <thead>
+          <tr>
+            <th width="5%" scope="col">#</th>
+            <th  width="10%" scope="col">Title</th>
+            <th  width="15%" scope="col">Small Description</th>
+            <th  width="45%" scope="col">Full Description</th>
+            <th  width="5%" scope="col">Programing Lang.</th>
+            <th  width="5%" scope="col">State</th>
+            <th  width="15%" scope="col">Action</th>
+
+          </tr>
+        </thead>
+          <tr v-for="(note,index) in allData">
+            <td scope="row">{{index }}</td>
+            <td>{{ note.title }}</td>
+            
+            <td>{{ note.s_desc }}</td>
+            <td>{{ note.f_desc }}</td>
+            <td>{{ note.p_lang }}</td>
+            <td>
+                <span class="badge badge-success" v-if='note.state == "Public"'>Public</span>
+                <span class="badge badge-danger"  v-else>Private</span>
+            </td>
+            <td>
+                <button disabled  class="btn btn-sm btn-primary">Edit</button>
+                <button  data-toggle="modal" :data-target="'#demo' + index"  class="btn btn-sm btn-danger">Delete</button>
+                <!-- Modal -->
+
+            <div  style="color: black;" class="modal fade" :id="'demo'+index" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Delete Note</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    Are You Sure To Delete This Note : {{ note.title }}
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" @click='deleteNotes(index)' class="btn btn-danger">Delete</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            </td>
+
+            
+
+          </tr>
+      </table>
+
+
+    </div>
+
+
+
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/vue.js"></script>
+
+    <script>
+              var nm = new Vue({
+                created: function () {
+                    this.getNotes();
+                    console.log(this.allData);
+                
+                },
+                el: "#my-notes",
+
+                data: {
+                    allData: {},
+                    
+                },
+                methods:{
+                    getNotes: function () {
+                        this.allData = JSON.parse(localStorage.getItem("Notes") || "[]"); // get current objects
+                    },
+
+                    // function for delete Note
+                    deleteNotes:function(id) {
+                      this.$delete(this.allData, id);
+                      localStorage.setItem("Notes", JSON.stringify(this.allData));
+                      window.location.reload();
+                    }
+                },
+              })
+    </script>
+
+</body>
+</html>

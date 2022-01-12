@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Vue Js , To Do List</title>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+
+    <style>
+      .content-form {
+        border: 1px solid rgb(189, 185, 185);
+        margin-top: 10px;
+        border-radius: 5px;
+        box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25),
+          0 10px 10px rgba(0, 0, 0, 0.22);
+        margin-bottom: 45px;
+      }
+
+      footer {
+        padding-top: 20px;
+        color: gray;
+        padding-bottom: 6px;
+        position: absolute;
+        bottom: 0px;
+        right: 0px;
+        left: 0px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <!-- Start Navbr-->
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="index.html"
+          >Program <span style="color: red">Notes</span></a
+        >
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div
+          class="collapse navbar-collapse"
+          id="navbarSupportedContent"
+          style="padding-right: 100px"
+        >
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                id="navbarDropdown"
+                role="button"
+                data-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <img src="img/icon.png" />
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="mynotes.html">My Noted</a>
+                <a class="dropdown-item" href="#">Info</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">Log Out</a>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <!-- End Navbr-->
+
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-md-8 content-form p-3">
+
+            <div  v-if='error' class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>{{ error }}</strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+
+            <h2 class="text-center">
+              Add New <span style="color: red"> Note</span>
+            </h2>
+
+            <form v-on:submit.prevent="storeData">
+              <div class="form-group row">
+                <label for="inputPassword" class="col-sm-3 col-form-label"
+                  >Title</label
+                >
+                <div class="col-sm-9">
+                  <input
+                    type="text"
+                    required
+                    class="form-control"
+                    id="inputPassword"
+                    v-model="notes.title"
+                  />
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label for="inputPassword" class="col-sm-3 col-form-label"
+                  >Small Description</label
+                >
+                <div class="col-sm-9">
+                  <input
+                    type="text"
+                    required
+                    class="form-control"
+                    id="inputPassword"
+                    v-model="notes.s_desc"
+                  />
+                </div>
+              </div>
+
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <label class="input-group-text" for="inputGroupSelect01"
+                    >Choose a programming language</label
+                  >
+                </div>
+                <select
+                  class="custom-select"
+                  required
+                  id="inputGroupSelect01"
+                  v-model="notes.p_lang"
+                >
+                  <option selected>Choose...</option>
+                  <option value="HTML & CSS">HTML & CSS</option>
+                  <option value="JavaScript">JavaScript</option>
+                  <option value="PHP">PHP</option>
+                  <option value="Python">Python</option>
+                  <option value="java">java</option>
+                  <option value="Swift">Swift</option>
+                  <option value="C++">C++</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="exampleFormControlTextarea1 text-center"
+                  >Full Description</label
+                >
+                <textarea
+                  class="form-control"
+                  required
+                  id="exampleFormControlTextarea1"
+                  rows="3"
+                  v-model="notes.f_desc"
+                ></textarea>
+              </div>
+
+              <div class="form-check form-check-inline">
+                <input
+                  class="form-check-input"
+                  re
+                  type="radio"
+                  name="inlineRadioOptions"
+                  checked
+                  id="inlineRadio1"
+                  v-model="notes.state"
+                  value="Public"
+                />
+                <label class="form-check-label" for="inlineRadio1"
+                  >Public</label
+                >
+              </div>
+              <div class="form-check form-check-inline">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="inlineRadioOptions"
+                  id="inlineRadio2"
+                  v-model="notes.state"
+                  value="Private"
+                />
+                <label class="form-check-label" for="inlineRadio2"
+                  >Private</label
+                >
+              </div>
+
+              <div class="action-btn">
+                <button type="submit" class="btn btn-danger float-right">
+                  Sava
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <footer style="background-color: black">
+        <p class="container">
+          Design By Mohaned <span style="color: red">Azez</span>
+        </p>
+      </footer>
+    </div>
+
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/vue.js"></script>
+
+    <script type="text/javascript">
+      var nm = new Vue({
+        created: function () {
+          this.getNotes();
+        },
+        el: "#app",
+
+        data: {
+          notes: {
+            title: null,
+            f_desc: null,
+            s_desc: null,
+            p_lang: null,
+            state: "Public",
+          },
+          allData: {},
+          error : null,
+        },
+
+        methods: {
+          storeData: function () {
+            var notes = JSON.parse(
+              localStorage.getItem("Notes") || "[]"
+            ); // get current objects
+            var note = {
+              title: this.notes.title,
+              f_desc: this.notes.f_desc,
+              s_desc: this.notes.s_desc,
+              p_lang: this.notes.p_lang,
+              state: this.notes.state,
+            };
+
+            notes.push(note); //push new one
+            localStorage.setItem("Notes", JSON.stringify(notes));
+
+
+            this.error = "Note Added Successfully";
+
+            this.notes.title = "";
+            this.notes.f_desc = "";
+            this.notes.s_desc = "";
+            this.notes.p_lang = "";
+          },
+
+          getNotes: function () {
+            this.allData = JSON.parse(localStorage.getItem("Notes") || "[]"); // get current objects
+          },
+        },
+      });
+    </script>
+  </body>
+</html>
